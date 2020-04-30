@@ -26,13 +26,14 @@ public class LogicMain {
         this.coordinates = coordinates;
     }
     
-    public void runLogic() {
+    public ArrayList<Edge> runLogic() {
         Thread[] thread = new Thread[t];
         LogicWorker[] lW = new LogicWorker[t];
-        ArrayList<Coordinate> temp = setArray();
         
         for(int i=0; i<t; i++) {
-            lW[i] = new LogicWorker(m,temp);
+            ArrayList<Coordinate> temp = setArray();
+            System.out.println("Worker" + i + "Temp" + temp);
+            lW[i] = new LogicWorker(m,temp,i);
             thread[i] = new Thread(lW[i]);
             thread[i].start();
         }
@@ -48,6 +49,8 @@ public class LogicMain {
         for(int i=0; i<t; i++) {
             edges.addAll(lW[i].getEdges());
         }
+        
+        return edges;
     }
     
     private ArrayList<Coordinate> setArray() {
