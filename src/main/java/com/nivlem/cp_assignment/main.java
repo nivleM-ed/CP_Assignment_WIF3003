@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class main {
     public static ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-    public static int n = 1000;
+    public static int n = 10000;
     public static int t = 5;
     public static int m = 10;
             
@@ -31,8 +31,8 @@ public class main {
         ArrayList<Coordinate> temp = new ArrayList<Coordinate>();
         while(temp.size() != n) {
             Random rand = new Random();
-            float x = rand.nextFloat();
-            float y = rand.nextFloat();
+            float x = rand.nextFloat()*1000;
+            float y = rand.nextFloat()*1000;
             Coordinate tempC = new Coordinate(x,y);
             if(!tempC.isExist(temp)) temp.add(tempC);
         }
