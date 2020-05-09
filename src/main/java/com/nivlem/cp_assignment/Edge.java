@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.nivlem.cp_assignment;
-
+import java.util.HashMap;
 /**
  *
  * @author melvi
@@ -12,7 +12,7 @@ package com.nivlem.cp_assignment;
 public class Edge {
     Coordinate first;
     Coordinate second;
-    
+//    HashMap<Coordinate , Coordinate > EdgeMap = new HashMap<Coordinate , Coordinate >();
     public Edge(Coordinate first, Coordinate second) {
         this.first = first;
         this.second = second;
