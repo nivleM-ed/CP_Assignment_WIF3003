@@ -4,31 +4,38 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class NodeMatch {
     private static ArrayList<Coordinate> coordinates;
     private static EdgeMap edgeMap=new EdgeMap();
     private static boolean failure;
-    private static boolean timeEnd;
 
     public static class AddMatchedNotes implements Runnable{
         private int failCount = 0;
         public void run(){
-            Random random=new Random();
-            Coordinate first =coordinates.get(random.nextInt(coordinates.size()));
-            Coordinate second =coordinates.get(random.nextInt(coordinates.size()));
-            if(first.equals(second)||edgeMap.isExist(first,second)){
-                failCount++;
-                System.out.println(Thread.currentThread().getName() + " "+failCount);
+            while (!failure){
+                Random random=new Random();
+                Coordinate first =coordinates.get(random.nextInt(coordinates.size()));
+                Coordinate second =coordinates.get(random.nextInt(coordinates.size()));
+                if(first.equals(second)||edgeMap.isExist(first,second)){
+
+                    failCount++;
+                    System.out.println(Thread.currentThread().getName() + " "+failCount + " " + first + " " + second);
+                }
+                else {
+                    edgeMap.addEdge(first,second);
+                    System.out.println(Thread.currentThread().getName() + " add coordinate pair [" + first + " , " + second + " ]"  );
+                }
+                if (failCount>=20){
+                    failure = true;
+                    System.out.println(Thread.currentThread().getName() +  " has failed " + failCount);
+                }
             }
-            else {
-                edgeMap.addEdge(first,second);
-                System.out.println(Thread.currentThread().getName() + " add coordinate pair [" + first + " , " + second + " ]"  );
+            if(failure){
+                Thread.currentThread().interrupt();
             }
-            if (failCount>=20){
-                failure = true;
-                System.out.println(Thread.currentThread().getName() +  " has failed " + failCount);
-            }
+
         }
     }
 
@@ -40,10 +47,16 @@ public class NodeMatch {
         getNodes(n);
         for(int i=0; i<t;i++){
             executor.execute(new AddMatchedNotes());
-        }
-        executor.shutdown();
-        while(!executor.isTerminated()){
 
+        }
+        executor.shutdownNow();
+        try {
+            executor.awaitTermination(30, TimeUnit.SECONDS );
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
+        while(!executor.isTerminated()){
         }
         edgeMap.getEdgeMap().entrySet().forEach(entry->{
                     System.out.println(entry.getKey() + " " + entry.getValue());

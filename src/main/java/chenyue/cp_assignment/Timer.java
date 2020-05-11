@@ -5,6 +5,7 @@ public class Timer {
     private long startTime;
     private long finishTime;
 
+
     public void start(){
         this.startTime=System.nanoTime();
     }
@@ -12,7 +13,9 @@ public class Timer {
     public void finish(){
         this.finishTime=System.nanoTime();
     }
-
+    public long getCurrentTime (){
+        return System.nanoTime()-startTime;
+    }
     public long timeTaken(){
         return this.finishTime-this.startTime;
     }
