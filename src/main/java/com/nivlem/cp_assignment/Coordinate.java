@@ -12,19 +12,19 @@ import java.util.ArrayList;
  * @author melvi
  */
 public class Coordinate {
-    private float x;
-    private float y;
+    private double x;
+    private double y;
     
-    public Coordinate(float x, float y) {
+    public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;
     }
     
-    public float getX() {
+    public double getX() {
         return x;
     }
     
-    public float getY() {
+    public double getY() {
         return y;
     }
     

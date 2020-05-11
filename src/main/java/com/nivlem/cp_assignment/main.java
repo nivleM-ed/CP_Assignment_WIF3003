@@ -16,43 +16,29 @@ import java.util.concurrent.Executors;
  */
 public class main {
 //    public static ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-    public static int n = 100;
-    public static int t = 5;
-    public static int m = 10;
+    public static int n = 10000;    //number of coodinates
+    public static int t = 5;        //number of threads
+    public static int m = 10;        //time to terminate
             
     public static void main(String[] args) {
-//        coordinates = createRandomCoordinates(n);
-//        System.out.println(coordinates);
-//        LogicMain lM = new LogicMain(t, m, n, coordinates);
-//        System.out.println(lM.runLogic());
-//        System.out.println(lM.getEdges());
-//        System.out.println("Total Length:"+lM.getEdgesLength());
-
         int i = 0;
-        CoordinateArray coArr = new CoordinateArray(n);
         ExecutorService executorService = Executors.newFixedThreadPool(t);
+        CoordinateArray coArr = new CoordinateArray(executorService, n);
         
+        //run thread to terminate thread after m seconds
+        Thread thread = new Thread(new StopExecutor(executorService, m));
+        thread.start();
+        
+        //execute threads to add edges
         while(i < n/2) {
-            LogicWorker lw = new LogicWorker(coArr, i);
+            LogicWorker lw = new LogicWorker(coArr);
             executorService.submit(lw);
             i++;
         }
         
-        executorService.shutdown();
         while(!executorService.isTerminated()) {}
         
         System.out.println(coArr.getEdge());
+        System.out.println("Total Edges: " + coArr.getEdge().size());
     }
-    
-//    public static ArrayList<Coordinate> createRandomCoordinates(int n) {
-//        ArrayList<Coordinate> temp = new ArrayList<Coordinate>();
-//        while(temp.size() != n) {
-//            Random rand = new Random();
-//            float x = rand.nextFloat();
-//            float y = rand.nextFloat();
-//            Coordinate tempC = new Coordinate(x,y);
-//            if(!tempC.isExist(temp)) temp.add(tempC);
-//        }
-//        return temp;
-//    }
 }

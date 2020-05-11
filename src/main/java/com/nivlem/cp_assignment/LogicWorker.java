@@ -12,41 +12,23 @@ import java.util.ArrayList;
  * @author melvi
  */
 public class LogicWorker implements Runnable{
-//    private int m;
-//    private int worker; 
-//    private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
-//    private ArrayList<Edge> edges = new ArrayList<Edge>();
-//    
-//    public LogicWorker(int m, ArrayList<Coordinate> coordinates, int worker) {
-//        this.m = m;
-//        this.coordinates = coordinates;
-//        this.worker = worker;
-//    }
     
     private CoordinateArray coArr;
-    private int num = 0;
     
-    public LogicWorker(CoordinateArray coArr, int num) {
+    public LogicWorker(CoordinateArray coArr) {
         this.coArr = coArr;
-        this.num = num;
     }
 
     @Override
     public void run() {
-//        System.out.println("Worker "+ worker + ":" + coordinates.size());
+        //Thread sleep to test time termination
 //        try {
-//            while(coordinates.size() > 1) {
-//                Coordinate first = coordinates.remove(0);
-//                Coordinate second = coordinates.remove(0);
-//                System.out.println("Worker "+ worker + ":" + coordinates.size());
-//                Edge tmpE = new Edge(first, second);
-//                edges.add(tmpE);
-//            }
+//                Thread.sleep(10);
 //        } catch (Exception e) {
-//            e.printStackTrace();
 //        }
+        
         try {
-            coArr.addEdge(num);
+            coArr.addEdge();
         } catch (Exception e) {
             e.printStackTrace();
         }
