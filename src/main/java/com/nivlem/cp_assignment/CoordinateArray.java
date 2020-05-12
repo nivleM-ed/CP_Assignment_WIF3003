@@ -25,6 +25,7 @@ public class CoordinateArray {
     
     //declare failure
     private int failure = 0;
+    private boolean failToken = false;
     
     //declare lock
     private ReentrantLock lock = new ReentrantLock();
@@ -43,20 +44,23 @@ public class CoordinateArray {
     public void addEdge() throws InterruptedException {
             lock.lock(); //Thread to acquire lock first
             
-            if(failure > 6) shutdownThreads();
-            
-            if(coordinates.size() > 1) {
+            if(!failToken) {
+                if(coordinates.size() > 1) {
                 Coordinate first = coordinates.get(new Random().nextInt(coordinates.size()));
                 Coordinate second = coordinates.get(new Random().nextInt(coordinates.size()));
                 
                 Edge tmpE = new Edge(first, second);
-                System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
                 
-                if(!tmpE.isExist(edges)) edges.add(tmpE);
+                if(!tmpE.isExist(edges)) {
+                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
+                    edges.add(tmpE);
+                }
                 else {
-                    System.out.println("Failure: " + failure);
+                    System.out.println("Failure: " + Thread.currentThread().getName() + " : " + failure);
                     failure++;
                 }
+            }
+            if(failure > 20) shutdownThreads();
             }
             lock.unlock(); 
     }
@@ -75,6 +79,7 @@ public class CoordinateArray {
     }
     
     private void shutdownThreads() {
+        failToken = true;
         try {
             executorService.shutdownNow();
             System.out.println("Shutting down threads: 20 failures");
