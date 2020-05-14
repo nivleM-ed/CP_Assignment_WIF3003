@@ -15,77 +15,66 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author melvi
  */
 public class CoordinateArray {
+
     //to implement coordinates in a 1000x1000 region
     private final int MAX_REGION = 1000;
     private final int MIN_REGION = 0;
-    
+
     //declare ArrayList/Stack
     private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
     private ArrayList<Edge> edges = new ArrayList<Edge>();
-    
-    //declare failure
-    private int failure = 0;
-    private boolean failToken = false;
-    
+
     //declare lock
     private ReentrantLock lock = new ReentrantLock();
-    
+
     //declare executor
     private ExecutorService executorService;
-    
+
     //constructor: input number of coordinates to create list of coordinates
     public CoordinateArray(ExecutorService exectorService, int n) {
         this.coordinates = createRandomCoordinates(n);
         System.out.println("COORDINATES: " + coordinates);
         this.executorService = exectorService;
     }
-    
+
     //method: add one edge
-    public void addEdge() throws InterruptedException {
-            lock.lock(); //Thread to acquire lock first
-            
-            if(!failToken) {
-                if(coordinates.size() > 1) {
+    public int addEdge() throws InterruptedException {
+        lock.lock(); //Thread to acquire lock first
+        int token = 0; // 0 = No more coordinate to use 1 = edge added, 2 = fail to add edge
+        if (edges.size() < coordinates.size() / 2) { //check if all coordinates have been used
+
+            if (coordinates.size() > 1) {
                 Coordinate first = coordinates.get(new Random().nextInt(coordinates.size()));
                 Coordinate second = coordinates.get(new Random().nextInt(coordinates.size()));
-                
+
                 Edge tmpE = new Edge(first, second);
-                
-                if(!tmpE.isExist(edges)) {
-                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
+
+                if (!tmpE.isExist(edges)) {
+//                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
                     edges.add(tmpE);
-                }
-                else {
-                    System.out.println("Failure: " + Thread.currentThread().getName() + " : " + failure);
-                    failure++;
+                    token = 1;
+                } else {
+                    token = 2;
                 }
             }
-            if(failure > 20) shutdownThreads();
-            }
-            lock.unlock(); 
+        }
+        lock.unlock();
+        return token;
     }
-    
+
     //method: create list of coordinates
     private ArrayList<Coordinate> createRandomCoordinates(int n) {
         ArrayList<Coordinate> temp = new ArrayList<Coordinate>();
-        while(temp.size() != n) {
+        while (temp.size() != n) {
             Random rand = new Random();
             double x = Math.round((rand.nextFloat() * (MAX_REGION - MIN_REGION) + MIN_REGION) * 100.0) / 100.0;
             double y = Math.round((rand.nextFloat() * (MAX_REGION - MIN_REGION) + MIN_REGION) * 100.0) / 100.0;
-            Coordinate tempC = new Coordinate(x,y);
-            if(!tempC.isExist(temp)) temp.add(tempC);
+            Coordinate tempC = new Coordinate(x, y);
+            if (!tempC.isExist(temp)) {
+                temp.add(tempC);
+            }
         }
         return temp;
-    }
-    
-    private void shutdownThreads() {
-        failToken = true;
-        try {
-            executorService.shutdownNow();
-            System.out.println("Shutting down threads: 20 failures");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public synchronized ArrayList<Edge> getEdge() {
