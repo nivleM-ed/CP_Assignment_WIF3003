@@ -32,7 +32,7 @@ public class LogicMain {
         
         for(int i=0; i<t; i++) {
             ArrayList<Coordinate> temp = setArray();
-            System.out.println("Worker" + i + "Temp" + temp);
+            System.out.println("Worker/Thread" + i + "Temp" + temp);
             lW[i] = new LogicWorker(m,temp,i);
             thread[i] = new Thread(lW[i]);
             thread[i].start();
@@ -40,8 +40,8 @@ public class LogicMain {
         
         try {
             for(int i=0; i<t; i++) {
-            thread[i].join();
-        }
+                thread[i].join();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
