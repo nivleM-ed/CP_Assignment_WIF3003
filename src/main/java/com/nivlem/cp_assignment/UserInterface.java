@@ -20,7 +20,7 @@ import javax.swing.JTextField;
  *
  * @author andre
  */
-public class GUI extends JFrame implements ActionListener {
+public class UserInterface extends JFrame implements ActionListener {
     
     boolean submit = false;
 
@@ -36,7 +36,7 @@ public class GUI extends JFrame implements ActionListener {
     private final JButton goButton;
     private final JTextField points_input, time_input, threads_input;
     
-    public GUI ()
+    public UserInterface ()
     {
         //Main panel = container, Sub panels = points_panel, time_panel, threads_panel, button_panel
         container = new JPanel();
