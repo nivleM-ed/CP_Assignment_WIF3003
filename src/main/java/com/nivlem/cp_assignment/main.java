@@ -28,7 +28,7 @@ public class main {
 <<<<<<< Updated upstream
 //        UI ui = new UI();
 //        ui.paint();
-        GUI input = new GUI();
+        UserInterface input = new UserInterface();
         do {
             System.out.println("Pending...");
         } while (!input.getSubmit());

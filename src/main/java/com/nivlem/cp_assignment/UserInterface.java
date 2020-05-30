@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+=======
+>>>>>>> fd624187fde7b319719c84213fae30ca8960b39c
 package com.nivlem.cp_assignment;
 
 import java.awt.BorderLayout;
@@ -109,4 +112,3 @@ public class UserInterface extends JFrame implements ActionListener {
     }
 
 }
-
