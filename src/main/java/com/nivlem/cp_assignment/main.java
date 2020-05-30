@@ -13,12 +13,19 @@ import java.util.Random;
  * @author melvi
  */
 public class main {
+<<<<<<< Updated upstream
     public static ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
 //    public static int n = 20;
 //    public static int t = 5;
 //    public static int m = 10;
+=======
+//    public static int n = 100;    //number of coodinates
+//    public static int t = 10;        //number of threads
+//    public static double m = 2000.0;        //time to terminate
+>>>>>>> Stashed changes
     
     public static void main(String[] args) {
+<<<<<<< Updated upstream
 //        UI ui = new UI();
 //        ui.paint();
         GUI input = new GUI();
@@ -53,6 +60,46 @@ public class main {
             float y = rand.nextInt(1000);
             Coordinate tempC = new Coordinate(x,y);
             if(!tempC.isExist(temp)) temp.add(tempC);
+=======
+        
+        UserInterface gui = new UserInterface();
+        do {
+            System.out.println("Pending user input...");
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                System.out.println("Error");
+            }
+        } while (!gui.getSubmit());
+        
+        int n = gui.getN();
+        int t = gui.getT();
+        int m = gui.getM();
+        
+        int i = 0;
+        ExecutorService executorService = Executors.newFixedThreadPool(t);
+        CoordinateArray coArr = new CoordinateArray(executorService, n);
+        
+        //run thread to terminate thread after m seconds
+//        Thread thread = new Thread(new StopExecutor(executorService, m));
+//        thread.start();
+        
+        //execute threads to add edges
+        LogicWorker lw[] = new LogicWorker[t];
+        while(i < t) {
+            lw[i] = new LogicWorker(coArr, m);
+            executorService.submit(lw[i]);
+            i++;
+        }
+        
+        executorService.shutdownNow();
+        while(!executorService.isTerminated()) {}
+        
+        int winner = 0;
+        for (int j = 0; j < t; j++) {
+            System.out.println(lw[j].getName() + ": Success: " + lw[j].getSuccess() + " Failure: " + lw[j].getFailure() + " Finished in " + lw[j].getRuntime());
+            if(lw[j].getSuccess() > lw[winner].getSuccess()) winner = j;
+>>>>>>> Stashed changes
         }
         return temp;
     }
