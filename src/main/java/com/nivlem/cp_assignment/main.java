@@ -15,27 +15,12 @@ import java.util.concurrent.Executors;
  * @author melvi
  */
 public class main {
-//    public static int n = 100;    //number of coodinates
-//    public static int t = 10;        //number of threads
-//    public static double m = 2000.0;        //time to terminate
+    public static int n = 100;    //number of coodinates
+    public static int t = 10;        //number of threads
+    public static double m = 2000.0;        //time to terminate
     
             
     public static void main(String[] args) {
-        
-        UserInterface gui = new UserInterface();
-        do {
-            System.out.println("Pending user input...");
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                System.out.println("Error");
-            }
-        } while (!gui.getSubmit());
-        
-        int n = gui.getN();
-        int t = gui.getT();
-        int m = gui.getM();
-        
         int i = 0;
         ExecutorService executorService = Executors.newFixedThreadPool(t);
         CoordinateArray coArr = new CoordinateArray(executorService, n);
