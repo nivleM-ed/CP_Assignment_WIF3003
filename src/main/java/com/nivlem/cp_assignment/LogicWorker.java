@@ -11,71 +11,35 @@ import java.util.ArrayList;
  *
  * @author melvi
  */
-public class LogicWorker implements Runnable {
-
-    private CoordinateArray coArr;
-    private boolean endToken = false;
-    private final int MAX_FAILURE = 20;
-    private double m;
-    private double diff;
-    private String threadName;
-    private int failure;
-    private int success;
-
-    public LogicWorker(CoordinateArray coArr, double m) {
-        this.coArr = coArr;
+public class LogicWorker implements Runnable{
+    private int m;
+    private int worker; 
+    private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+    private ArrayList<Edge> edges = new ArrayList<Edge>();
+    
+    public LogicWorker(int m, ArrayList<Coordinate> coordinates, int worker) {
         this.m = m;
-        this.failure = 0;
-        this.success = 0;
+        this.coordinates = coordinates;
+        this.worker = worker;
     }
 
     @Override
     public void run() {
-        long start = System.nanoTime();
-        threadName = Thread.currentThread().getName();
+        System.out.println("Worker "+ worker + ":" + coordinates.size());
         try {
-            while (failure < MAX_FAILURE && !endToken && !checkTime(start)) { //condition for thread to stop
-                int result = coArr.addEdge();
-                
-                switch (result) {
-                    case 0: //All coordinates have been used
-                        endToken = true; 
-                        break;
-                    case 1: //successfully create an edge
-                        success++;
-                        break;
-                    case 2: //fail to create an edge
-                        failure++;
-                        break;
-                    default: //do nothing
-                }
+            while(coordinates.size() > 1) {
+                Coordinate first = coordinates.remove(0);
+                Coordinate second = coordinates.remove(0);
+                System.out.println("Worker "+ worker + ":" + coordinates.size());
+                Edge tmpE = new Edge(first, second);
+                edges.add(tmpE);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    private boolean checkTime(long start) {
-        long now = System.nanoTime();
-        diff = (double)(now - start) / 1_000_000_000.0;
-        
-        if(diff >= m) return true;
-        return false;
-    }
-    
-    public int getFailure() {
-        return failure;
-    }
-    
-    public int getSuccess() {
-        return success;
-    }
-    
-    public String getName() {
-        return threadName;
-    }
-    
-    public double getRuntime() {
-        return diff;
+    public ArrayList<Edge> getEdges() {
+        return edges;
     }
 }

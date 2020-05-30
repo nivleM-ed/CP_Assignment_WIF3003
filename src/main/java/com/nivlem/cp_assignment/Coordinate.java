@@ -12,19 +12,19 @@ import java.util.ArrayList;
  * @author melvi
  */
 public class Coordinate {
-    private double x;
-    private double y;
+    private float x;
+    private float y;
     
-    public Coordinate(double x, double y) {
+    public Coordinate(float x, float y) {
         this.x = x;
         this.y = y;
     }
     
-    public double getX() {
+    public float getX() {
         return x;
     }
     
-    public double getY() {
+    public float getY() {
         return y;
     }
     
@@ -40,6 +40,6 @@ public class Coordinate {
     }
     
     public String toString() {
-        return "("+x+","+y+")";
+        return x+","+y;
     }
 }
