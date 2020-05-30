@@ -1,7 +1,6 @@
-com\nivlem\cp_assignment\main.class
-com\nivlem\cp_assignment\LogicMain.class
-com\nivlem\cp_assignment\Timer.class
 com\nivlem\cp_assignment\Coordinate.class
-com\nivlem\cp_assignment\UI.class
+com\nivlem\cp_assignment\CoordinateArray.class
+com\nivlem\cp_assignment\main.class
+com\nivlem\cp_assignment\StopExecutor.class
 com\nivlem\cp_assignment\Edge.class
 com\nivlem\cp_assignment\LogicWorker.class
