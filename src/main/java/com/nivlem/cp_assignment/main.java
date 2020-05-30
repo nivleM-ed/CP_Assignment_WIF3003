@@ -14,13 +14,21 @@ import java.util.concurrent.Executors;
  *
  * @author melvi
  */
-public class main {
-    public static int n = 100;    //number of coodinates
-    public static int t = 10;        //number of threads
-    public static double m = 2000.0;        //time to terminate
-    
+public class main {    
             
     public static void main(String[] args) {
+        UserInterface gui = new UserInterface();
+        do {
+            System.out.println("Pending user input...");
+            try {
+                Thread.sleep(1500);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } while (!gui.getSubmit());
+        int n = gui.getN();     //number of coodinates
+        int t = gui.getT();     //number of threads
+        double m = gui.getM();  //time to terminate
         int i = 0;
         ExecutorService executorService = Executors.newFixedThreadPool(t);
         CoordinateArray coArr = new CoordinateArray(executorService, n);

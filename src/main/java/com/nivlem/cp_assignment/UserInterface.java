@@ -8,6 +8,7 @@ package com.nivlem.cp_assignment;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -93,14 +94,14 @@ public class UserInterface extends JFrame implements ActionListener {
         return parseInt(points_input.getText());
     }
     
+    public double getM()
+    {
+        return parseDouble(time_input.getText());
+    }
+    
     public int getT()
     {
         return parseInt(threads_input.getText());
-    }
-    
-    public int getM()
-    {
-        return parseInt(time_input.getText());
     }
     
     public boolean getSubmit()
