@@ -34,6 +34,9 @@ public class UserInterface extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) 
     {
         status.setText("Game is starting...");
+        System.out.println("Coordinates: " + getN());
+        System.out.println("Seconds: " + getM());
+        System.out.println("Threads: " + getT());
         submit = true;
     }
     

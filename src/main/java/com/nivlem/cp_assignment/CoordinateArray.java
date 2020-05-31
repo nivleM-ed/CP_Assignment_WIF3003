@@ -46,7 +46,7 @@ public class CoordinateArray extends JFrame {
         this.executorService = exectorService;
         
         setTitle("Test Lines");
-        setSize(1000, 1000);
+        setSize(1500, 1000);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
