@@ -5,6 +5,7 @@
  */
 package com.nivlem.cp_assignment;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -29,18 +30,22 @@ public class CoordinateArray {
 
     //declare executor
     private ExecutorService executorService;
+    
+    private LinesComponent lines;
 
     //constructor: input number of coordinates to create list of coordinates
-    public CoordinateArray(ExecutorService exectorService, int n) {
+    public CoordinateArray(ExecutorService exectorService, int n, LinesComponent lines) {
         this.coordinates = createRandomCoordinates(n);
         System.out.println("COORDINATES: " + coordinates);
         this.executorService = exectorService;
+        this.lines = lines;
     }
 
     //method: add one edge
-    public int addEdge() throws InterruptedException {
+    public int addEdge(Color c, OutputPanel output) throws InterruptedException {
         lock.lock(); //Thread to acquire lock first
         int token = 0; // 0 = No more coordinate to use 1 = edge added, 2 = fail to add edge
+     
         if (edges.size() < coordinates.size() / 2) { //check if all coordinates have been used
 
             if (coordinates.size() > 1) {
@@ -52,12 +57,15 @@ public class CoordinateArray {
                 if (!tmpE.isExist(edges)) {
 //                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
                     edges.add(tmpE);
-                    token = 1;
+                    boolean res = lines.addLine(tmpE.getFirst().getX(), tmpE.getFirst().getY(), tmpE.getSecond().getX(), tmpE.getSecond().getY(), c);
+                    output.appendText("Player " + Thread.currentThread().getName() + " created an edge from " + tmpE.getFirst() + " to " + tmpE.getSecond());
+                    if(res) token = 1;
                 } else {
                     token = 2;
                 }
             }
         }
+        lines.repaint();
         lock.unlock();
         return token;
     }
