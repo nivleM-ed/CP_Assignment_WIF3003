@@ -101,6 +101,13 @@ public class main {
             public void actionPerformed(ActionEvent e) {
                 int n, t;
                 double m;
+                
+                if (coordinates.getText().isEmpty() || thread.getText().isEmpty() || time.getText().isEmpty()){
+                    CheckInput valid = new CheckInput("kosong");
+                }else if(!isInteger(coordinates.getText()) || !isInteger(thread.getText()) || !isDouble(time.getText())){
+                    CheckInput valid = new CheckInput("num");
+                }
+                
                 n = Integer.parseInt(coordinates.getText());
                 t = Integer.parseInt(thread.getText());
                 m = Double.parseDouble(time.getText());
@@ -165,5 +172,25 @@ public class main {
         System.out.println("Total Edges Created: " + coArr.getEdge().size());
         output.setText(output.getText() + "\nThe winner is " + lw[winner].getName() + " \nwith " + lw[winner].getSuccess() + " edges");
 
+    }
+    
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            // s is a valid integer
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+    
+    public static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+            // s is a valid integer
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }
