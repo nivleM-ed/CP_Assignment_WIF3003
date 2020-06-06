@@ -53,7 +53,13 @@ public class main {
             System.out.println(lw[j].getName() + ": Success: " + lw[j].getSuccess() + " Failure: " + lw[j].getFailure() + " Finished in " + lw[j].getRuntime());
             if(lw[j].getSuccess() > lw[winner].getSuccess()) winner = j;
         }
-        System.out.println("The winner is " + lw[winner].getName() + " with " + lw[winner].getSuccess() + " edges");
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e){
+            System.out.println("Error");
+        }
+        Result res = new Result(lw[winner].getName(), lw[winner].getSuccess());
+//        System.out.println("The winner is " + lw[winner].getName() + " with " + lw[winner].getSuccess() + " edges");
         System.out.println("Total Edges Created: " + coArr.getEdge().size());
     }
 }

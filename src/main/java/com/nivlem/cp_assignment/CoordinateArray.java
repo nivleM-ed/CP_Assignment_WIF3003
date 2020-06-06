@@ -18,13 +18,16 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author melvi
  */
 public class CoordinateArray extends JFrame {
-
+    
+    JTextArea text;
+    
     //to implement coordinates in a 1000x1000 region
     private final int MAX_REGION = 1;
     private final int MIN_REGION = 0;
@@ -45,10 +48,43 @@ public class CoordinateArray extends JFrame {
         System.out.println("COORDINATES: " + coordinates);
         this.executorService = exectorService;
         
-        setTitle("Test Lines");
-        setSize(1500, 1000);
+        setTitle("Drawing Lines");
+        setSize(1600, 1100);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        JPanel draw = new JPanel();
+        draw.setPreferredSize(new Dimension(1000,1000));
+        draw.setBackground(Color.white);
+        add(draw);
+        
+        JPanel score = new JPanel();
+        score.setPreferredSize(new Dimension(350,1000));
+        score.setBackground(Color.green);
+        score.setBorder(new EmptyBorder(5,5,5,5));
+        score.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        
+        JLabel test1 = new JLabel("SCOREBOARD", SwingConstants.CENTER);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.PAGE_START;
+        c.ipady = 100;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 0;
+        score.add(test1, c);
+        
+        text = new JTextArea();
+        JScrollPane scroll = new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.ipady = 800;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 1;
+        score.add(scroll, c);
+        
+        add(score, BorderLayout.EAST);
+        
     }
 
     //method: add one edge
@@ -63,13 +99,17 @@ public class CoordinateArray extends JFrame {
                
                 
                 
-                
+    
                 Edge tmpE = new Edge(first, second);
                 
 
 //                System.out.println(tmpE);
                 if (!tmpE.isExist(edges)) {
-//                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
+                    String threadName = Thread.currentThread().getName();
+                    String event = "Player" + threadName.substring(threadName.lastIndexOf("-")) 
+                            + " drew a line from " + tmpE.toString();
+                    System.out.println(event);
+//                    text.append(event + "\n");
                     edges.add(tmpE);
                     doDrawing(getGraphics(),tmpE, c);
                     token = 1;
@@ -104,7 +144,7 @@ public class CoordinateArray extends JFrame {
         return edges;
     }
     private void doDrawing(Graphics g, Edge edge, Color c){
-        String splt1[] = edge.toString().split("@");
+        String splt1[] = edge.toString().split(" to ");
         String firstEdge[] = splt1[0].split(",");
         String secondEdge[] = splt1[1].split(",");
 //        System.out.println(firstEdge[0].replaceAll("\\p{P}",""));
@@ -113,10 +153,12 @@ public class CoordinateArray extends JFrame {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(c);
-        g2d.draw(new Line2D.Float(StringtoDouble(firstEdge[0].replaceAll("\\p{P}","")), 
+        g2d.draw(new Line2D.Float(
+                StringtoDouble(firstEdge[0].replaceAll("\\p{P}","")), 
                 StringtoDouble(secondEdge[0].replaceAll("\\p{P}","")), 
                 StringtoDouble(firstEdge[1].replaceAll("\\p{P}","")), 
-                StringtoDouble(secondEdge[1].replaceAll("\\p{P}",""))));
+                StringtoDouble(secondEdge[1].replaceAll("\\p{P}",""))
+        ));
 
 
             //Render a straight line
