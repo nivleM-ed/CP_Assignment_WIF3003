@@ -10,5 +10,5 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-    <name>CP_Assignment - Melvin</name>
+    <name>CP_Assignment- Melvin _v2</name>
 </project>
