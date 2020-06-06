@@ -6,10 +6,13 @@
 package com.nivlem.cp_assignment;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,18 +50,46 @@ public class UserInterface extends JFrame implements ActionListener {
     
     public UserInterface ()
     {
+        setSize(500,500);
+        setVisible(true);
         //Main panel = container, Sub panels = points_panel, time_panel, threads_panel, button_panel
         container = new JPanel();
+        container.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        add(container);
         points_panel = new JPanel();
+        c.fill = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.WEST;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 0;
+        container.add(points_panel, c);
         time_panel = new JPanel();
+        c.fill = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.WEST;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 1;
+        container.add(time_panel, c);
         threads_panel = new JPanel();
+        c.fill = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.WEST;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 2;
+        container.add(threads_panel, c);
         button_panel = new JPanel();
-        //Set main panel and add sub panels to it
-        //container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-        container.add(points_panel);
-        container.add(time_panel);
-        container.add(threads_panel);
-        container.add(button_panel);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.CENTER;
+        c.ipady = 10;
+        c.weightx = 0.5;
+        c.gridx = 1;
+        c.gridy = 3;
+        container.add(button_panel, c);
+
         //Button(s)
         goButton = new JButton("GO");
         goButton.addActionListener(this);

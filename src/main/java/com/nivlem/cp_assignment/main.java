@@ -58,7 +58,9 @@ public class main {
         } catch (Exception e){
             System.out.println("Error");
         }
-        Result res = new Result(lw[winner].getName(), lw[winner].getSuccess());
+        String tName = lw[winner].getName();
+        String threadName = "PLAYER" + tName.substring(tName.lastIndexOf("-")); 
+        Result res = new Result(threadName, lw[winner].getSuccess());
 //        System.out.println("The winner is " + lw[winner].getName() + " with " + lw[winner].getSuccess() + " edges");
         System.out.println("Total Edges Created: " + coArr.getEdge().size());
     }

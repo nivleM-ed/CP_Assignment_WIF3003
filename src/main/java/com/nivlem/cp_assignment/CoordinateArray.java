@@ -27,6 +27,9 @@ import javax.swing.border.EmptyBorder;
 public class CoordinateArray extends JFrame {
     
     JTextArea text;
+    JPanel draw, score;
+    JLabel title;
+    JScrollPane scroll;
     
     //to implement coordinates in a 1000x1000 region
     private final int MAX_REGION = 1;
@@ -53,29 +56,29 @@ public class CoordinateArray extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        JPanel draw = new JPanel();
+        draw = new JPanel();
         draw.setPreferredSize(new Dimension(1000,1000));
         draw.setBackground(Color.white);
         add(draw);
         
-        JPanel score = new JPanel();
+        score = new JPanel();
         score.setPreferredSize(new Dimension(350,1000));
         score.setBackground(Color.green);
         score.setBorder(new EmptyBorder(5,5,5,5));
         score.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         
-        JLabel test1 = new JLabel("SCOREBOARD", SwingConstants.CENTER);
+        title = new JLabel("SCOREBOARD", SwingConstants.CENTER);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.PAGE_START;
         c.ipady = 100;
         c.weightx = 0.5;
         c.gridx = 1;
         c.gridy = 0;
-        score.add(test1, c);
+        score.add(title, c);
         
         text = new JTextArea();
-        JScrollPane scroll = new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scroll = new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.ipady = 800;
         c.weightx = 0.5;
@@ -108,8 +111,8 @@ public class CoordinateArray extends JFrame {
                     String threadName = Thread.currentThread().getName();
                     String event = "Player" + threadName.substring(threadName.lastIndexOf("-")) 
                             + " drew a line from " + tmpE.toString();
-                    System.out.println(event);
-//                    text.append(event + "\n");
+//                    System.out.println(event);
+                    text.append(event + "\n");
                     edges.add(tmpE);
                     doDrawing(getGraphics(),tmpE, c);
                     token = 1;

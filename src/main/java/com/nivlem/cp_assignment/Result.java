@@ -2,6 +2,7 @@ package com.nivlem.cp_assignment;
 
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JFrame;
@@ -36,8 +37,10 @@ public class Result extends JFrame{
         GridBagConstraints c = new GridBagConstraints();
         
         String announcement;
-        announcement = "THE WINNER IS " + winner + " WITH " + edges + " edges!";
+        announcement = "THE WINNER IS " + winner + " WITH " + edges + " EDGES!";
+        Font font = new Font("Jokerman", Font.PLAIN, 20);
         announce = new JLabel(announcement, SwingConstants.CENTER);
+        announce.setFont(font);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.PAGE_START;
         c.ipady = 100;
