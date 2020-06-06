@@ -16,44 +16,30 @@ public class LogicWorker implements Runnable {
 
     private CoordinateArray coArr;
     private boolean endToken = false;
-    private final int MAX_FAILURE = 2000;
+    private final int MAX_FAILURE = 20;
     private double m;
     private double diff;
     private String threadName;
     private int failure;
     private int success;
-    private OutputPanel output;
+    private final Color[] colors = {Color.red,Color.green,Color.blue,Color.yellow,Color.cyan,Color.magenta,Color.white,Color.gray,Color.orange,Color.pink};
 
-    public LogicWorker(CoordinateArray coArr, double m, OutputPanel output) {
+    public LogicWorker(CoordinateArray coArr, double m) {
         this.coArr = coArr;
         this.m = m;
         this.failure = 0;
         this.success = 0;
-        this.output = output;
     }
 
     @Override
     public void run() {
         long start = System.nanoTime();
-        threadName = Thread.currentThread().getName();
-        
-        String getThreadNumber[] = threadName.split("-");
-        //to be changed    
-        Color[] colors = new Color[10];
-        colors[0] = Color.red;
-        colors[1] = Color.green;
-        colors[2] = Color.blue;
-        colors[3] = Color.yellow;
-        colors[4] = Color.cyan;
-        colors[5] = Color.magenta;
-        colors[6] = Color.black;
-        colors[7] = Color.gray;
-        colors[8] = Color.orange;
-        colors[9] = Color.pink;
-        
+        String threadNameTmp = Thread.currentThread().getName();
+        String getThreadNumber[] = threadNameTmp.split("-");
+        threadName = "Player " + getThreadNumber[3];
         try {
             while (failure < MAX_FAILURE && !endToken && !checkTime(start)) { //condition for thread to stop
-                int result = coArr.addEdge(colors[Integer.parseInt(getThreadNumber[3])-1], output);
+                int result = coArr.addEdge(colors[Integer.parseInt(getThreadNumber[3])-1]);
 
                 switch (result) {
                     case 0: //All coordinates have been used

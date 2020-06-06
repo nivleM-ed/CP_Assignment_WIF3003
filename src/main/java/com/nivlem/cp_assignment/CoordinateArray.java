@@ -42,7 +42,7 @@ public class CoordinateArray {
     }
 
     //method: add one edge
-    public int addEdge(Color c, OutputPanel output) throws InterruptedException {
+    public int addEdge(Color c) throws InterruptedException {
         lock.lock(); //Thread to acquire lock first
         int token = 0; // 0 = No more coordinate to use 1 = edge added, 2 = fail to add edge
      
@@ -57,9 +57,9 @@ public class CoordinateArray {
                 if (!tmpE.isExist(edges)) {
 //                    System.out.println("Edge Created By " + Thread.currentThread().getName() + " : " + tmpE.toString());
                     edges.add(tmpE);
-                    boolean res = lines.addLine(tmpE.getFirst().getX(), tmpE.getFirst().getY(), tmpE.getSecond().getX(), tmpE.getSecond().getY(), c);
-                    output.appendText("Player " + Thread.currentThread().getName() + " created an edge from " + tmpE.getFirst() + " to " + tmpE.getSecond());
-                    if(res) token = 1;
+                    lines.addLine(tmpE.getFirst().getX(), tmpE.getFirst().getY(), tmpE.getSecond().getX(), tmpE.getSecond().getY(), c);
+//                    output.appendText("Player " + Thread.currentThread().getName() + " created an edge from " + tmpE.getFirst() + " to " + tmpE.getSecond());
+                    token = 1;
                 } else {
                     token = 2;
                 }
