@@ -41,7 +41,6 @@ public class Edge {
     }
     
     public String toString() {
-//        return "(" + first.toString() + ","+ second.toString() + ")";
-        return   first.toString() + " to " + second.toString()  ;
+        return first.toString() + "@"+ second.toString();
     }
 }
