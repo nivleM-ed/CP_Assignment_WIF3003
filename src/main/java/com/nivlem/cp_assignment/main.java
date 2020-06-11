@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -101,16 +99,28 @@ public class main {
             public void actionPerformed(ActionEvent e) {
                 int n, t;
                 double m;
-                n = Integer.parseInt(coordinates.getText());
-                t = Integer.parseInt(thread.getText());
-                m = Double.parseDouble(time.getText());
 
-                System.out.println("Number of points = " + n);
-                System.out.println("Threads = " + t);
-                System.out.println("Time termination = " + m);
+                try {
+                    if (coordinates.getText().isEmpty() || thread.getText().isEmpty() || time.getText().isEmpty()) {
+                        CheckInput valid = new CheckInput("else");
+                    } else if (!isInteger(coordinates.getText()) || !isInteger(thread.getText()) || !isDouble(time.getText())) {
+                        CheckInput valid = new CheckInput("checkNum");
+                    }
 
-                //add validation
-                runLogic(n, t, m, lines, output);
+                    n = Integer.parseInt(coordinates.getText());
+                    t = Integer.parseInt(thread.getText());
+                    m = Double.parseDouble(time.getText());
+
+                    System.out.println("Number of points = " + n);
+                    System.out.println("Threads = " + t);
+                    System.out.println("Time termination = " + m);
+
+                    //add validation
+                    runLogic(n, t, m, lines, output);
+                } catch (Exception ex) {
+                    System.out.println("Invalid characters have been entered.");
+                }
+
             }
         });
 
@@ -164,6 +174,25 @@ public class main {
         System.out.println("The winner is " + lw[winner].getName() + " with " + lw[winner].getSuccess() + " edges");
         System.out.println("Total Edges Created: " + coArr.getEdge().size());
         output.setText(output.getText() + "\nThe winner is " + lw[winner].getName() + " \nwith " + lw[winner].getSuccess() + " edges");
+    }
 
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+            // s is a valid integer
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
+
+    public static boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+            // s is a valid integer
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }
