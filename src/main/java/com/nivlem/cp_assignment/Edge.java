@@ -15,11 +15,13 @@ public class Edge {
     Coordinate first;
     Coordinate second;
     
+    //constructor to save first and second coordinates
     public Edge(Coordinate first, Coordinate second) {
         this.first = first;
         this.second = second;
     }
     
+    //check if edge exist in list
     public boolean isExist(ArrayList<Edge> array) {
         try {
             for(int i=0; i < array.size(); i++) {
@@ -32,6 +34,7 @@ public class Edge {
         return false;
     }
     
+    //getter method
     public Coordinate getFirst() {
         return this.first;
     }

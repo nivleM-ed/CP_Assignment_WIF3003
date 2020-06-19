@@ -25,9 +25,9 @@ public class CheckInput extends JFrame {
     JPanel cont;
     JLabel msg;
     JButton ok;
-
     String text;
 
+    // create warning popup for validation
     public CheckInput(String type) {
         setTitle("WARNING");
         setSize(300, 200);

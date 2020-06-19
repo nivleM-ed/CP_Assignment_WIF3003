@@ -37,16 +37,18 @@ private static class Line{
 
 private volatile LinkedList<Line> lines = new LinkedList<Line>();
 
-public void addLine(double x1, double x2, double x3, double x4) {
-    addLine(x1, x2, x3, x4, Color.black);
-}
+//public void addLine(double x1, double x2, double x3, double x4) {
+//    addLine(x1, x2, x3, x4, Color.black);
+//}
 
+// method to add line
 public void addLine(double x1, double x2, double x3, double x4, Color color) {
-    lines.add(new Line(x1,x2,x3,x4, color));
+    lines.add(new Line(x1,x2,x3,x4, color)); 
     drawLine(getGraphics(), x1, x2, x3, x4, color);
     repaint();
 }
 
+// draw the line with specific color
 public void drawLine(Graphics g, double x1, double x2, double x3, double x4, Color color) {
     Graphics2D g2g = (Graphics2D) g;
     for (Line line : lines) {
@@ -56,6 +58,7 @@ public void drawLine(Graphics g, double x1, double x2, double x3, double x4, Col
     }
 }
 
+// remove all line during rest
 public void clearLines() {
     lines.clear();
     repaint();

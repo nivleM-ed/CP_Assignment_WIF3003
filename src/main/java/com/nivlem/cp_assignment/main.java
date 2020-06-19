@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ public class main {
     public static int t = 5;        //number of threads
     public static double m = 0.5;        //time to terminate
 
+    //main to start the user interface
     public static void main(String[] args) {
         //declare and format JFrame
         JFrame mainFrame = new JFrame();
@@ -46,13 +48,11 @@ public class main {
         JPanel inputPanel = new JPanel();
         inputPanel.setPreferredSize(new Dimension(250, 50));
         inputPanel.setBackground(Color.WHITE);
-//    inputPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 
         //declare and format JPanel for output
         JPanel outputPanel = new JPanel();
         outputPanel.setPreferredSize(new Dimension(250, 1000));
         outputPanel.setBackground(Color.WHITE);
-//    outputPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 
         //declare textfield/labels/buttons for inputPanel
         JLabel label_coordinates = new JLabel("Coordinates");
@@ -71,7 +71,6 @@ public class main {
         //declare textfield/labels/buttons for outputPanel
         JLabel label_output = new JLabel("Output");
         JTextArea output = new JTextArea();
-//    output.setPreferredSize(new Dimension(240, 800));
         JScrollPane scroll = new JScrollPane(output);
         scroll.setPreferredSize(new Dimension(230, 750));
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -94,6 +93,7 @@ public class main {
         //add panels into mainFrame
         mainFrame.getContentPane().add(inputPanel, BorderLayout.EAST);
 
+        // action to perform when the start button is pressed 
         start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,6 +124,7 @@ public class main {
             }
         });
 
+        //action to perform when the reset button is pressed
         clear.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,6 +132,7 @@ public class main {
                 coordinates.setText("");
                 thread.setText("");
                 time.setText("");
+                output.setText("");
             }
         });
 
@@ -139,7 +141,8 @@ public class main {
 
     }
 
-    public static void runLogic(int n, int t, double m, LinesComponent lines, JTextArea output) {
+    //main method to execute the threads
+    public static void runLogic(int n, int t, double m, LinesComponent lines, JTextArea output) throws InterruptedException {
         int i = 0;
         ExecutorService executorService = Executors.newFixedThreadPool(t);
         CoordinateArray coArr = new CoordinateArray(executorService, n, lines);
@@ -152,30 +155,30 @@ public class main {
             i++;
         }
 
+        //shutdown the executor
         executorService.shutdownNow();
         while (!executorService.isTerminated()) {
         }
 
+        //compare the number of successful edges and declare winner
         int winner = 0;
         for (int j = 0; j < t; j++) {
-            String txt = lw[j].getName() + ": \nSuccess: " + lw[j].getSuccess() + " \nFailure: " + lw[j].getFailure() + " \nFinished in " + lw[j].getRuntime() + "\n";
+            String txt = lw[j].getName() + ":"+ lw[j].getColor() +"\nSuccess: " + lw[j].getSuccess() + " \nFailure: " + lw[j].getFailure() + " \nRun For: " + lw[j].getRuntime() + "\n";
             System.out.println(txt);
             output.setText(output.getText() + "\n" + txt);
 
             if (lw[j].getSuccess() > lw[winner].getSuccess()) {
                 winner = j;
             }
-
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-            }
         }
+
+        //output the results
         System.out.println("The winner is " + lw[winner].getName() + " with " + lw[winner].getSuccess() + " edges");
         System.out.println("Total Edges Created: " + coArr.getEdge().size());
         output.setText(output.getText() + "\nThe winner is " + lw[winner].getName() + " \nwith " + lw[winner].getSuccess() + " edges");
     }
 
+    //check if input is an integer
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -186,6 +189,7 @@ public class main {
         }
     }
 
+    //check if input is a double
     public static boolean isDouble(String s) {
         try {
             Double.parseDouble(s);
